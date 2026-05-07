@@ -1,0 +1,214 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    .sidebar {
+        background: #f7f7f7;
+        padding: 10px;
+        border-right: 1px solid #ccc;
+        overflow-y: auto;
+        height: 100vh;
+    }
+
+    .tree ul {
+        list-style: none;
+        margin: 0;
+        padding-left: 20px;
+    }
+
+    .tree li ul {
+        display: none;
+    }
+
+    .tree li {
+        cursor: default;
+        line-height: 1.5;
+        position: relative;
+        padding-left: 20px;
+    }
+
+    .tree .arrow {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 12px;
+        height: 12px;
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .tree .arrow::before {
+        content: "▶";
+        font-size: 12px;
+    }
+
+    .tree .expanded > .arrow::before {
+        content: "▼";
+    }
+
+    .tree .label {
+        cursor: pointer;
+    }
+
+    .tree .expanded > ul {
+        display: block;
+    }
+</style>
+
+<div class="row">
+    <div class="col-2">
+        <div class="sidebar">
+            <div class="tree">
+                <ul id="treeBase">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-10">
+        <div id="divItemInfo"></div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script>
+        // Item click handler
+        function onItemClick(element) {
+          const id = element.getAttribute("data-treeitemid");
+          const isFolder = element.getAttribute("data-isfolder");
+          const isFolderBool = element.dataset.isfolder === "true";
+
+          if (isFolderBool == false){
+            GetItemDescription(id);
+          }
+        }
+
+        // Arrow click handler
+        function onArrowClick(arrow, parentID) {
+            //alert("Arrow clicked for: " + arrow);
+            GetItems(parentID);
+
+            const parent = arrow.parentElement;
+            parent.classList.toggle('expanded');
+
+            // Call your JS function when arrow is clicked
+            //const label = parent.querySelector('.label')?.textContent.trim();
+            //onArrowClick(label);
+        }
+
+        $(document).ready(function(){
+            GetItems('');
+        })
+
+        var ulItem;
+
+        function GetItemDescription(itemID){
+            $.ajax({
+                url: '/Home/_Item',
+                data: {'itemID': itemID},
+                type: 'GET',
+                success: function (data) {
+                    $('#divItemInfo').html(data);
+                }
+            });
+        }
+
+        function GetItems(parentID){
+            var doAPICall = false;
+                            var selector = '#treeBase';
+                            //var ulItem = null;
+
+                            
+
+                            if (parentID != null && parentID != ''){
+                                selector = `[data-treeitemid="${parentID}"]`;
+                                ulItem = $(selector).closest("li").children("ul");
+
+                                //console.log($(selector).closest("li").children("ul"))
+                                //console.log(ulItem);
+
+                                if (ulItem.children().length <=0){
+                                    doAPICall = true;
+                                }
+                            }else{
+                                doAPICall = true;
+                            }
+
+
+
+                            if (doAPICall){
+                                $.ajax({
+                    url: '/api/GetItems?parentID='+parentID,
+                    type: 'GET',
+                    success: function (data) {
+                        console.log(data);
+
+                        if (data.hasError){
+                                ShowRedStatus("Something went wrong");
+                        }
+                        else
+                        {
+
+
+
+                            for (const e of data.data.items) {
+
+                                var arrowHTML = `<span class="arrow" onclick="onArrowClick(this, '${e.id}')" data-treeitemid="${e.id}"></span>`;
+
+                                if (e.isFolder == false){
+                                    arrowHTML = ''
+                                }
+
+                                var htmlBase = $(`
+                                  <li>` +
+
+
+                                    arrowHTML
+
+
+                                    + `<span class="label" onclick="onItemClick(this)" data-isFolder="${e.isFolder}" data-treeitemid="${e.id}">${e.name}</span>
+                                    <ul></ul>
+                                  </li>
+                                `);
+
+                                if (parentID != null && parentID != ''){
+                                    ulItem.append(htmlBase);
+                                }else{
+                                    $(selector).append(htmlBase);
+                                }
+                            }
+
+
+                             // $(data.data.items).each(function(e){
+
+                             //             var htmlBase = $`<li>
+                             //                              <span class="arrow"></span>
+                             //                                  <span class="label" onclick="onItemClick('${e.id}')">${e.name}</span>
+                             //                              <ul>
+                             //                                <!-- child <li> nodes go here -->
+                             //                              </ul>
+                             //                            </li>`;
+
+                             //     $('#treeBase').append(htmlBase);
+                             // })
+                        }
+                        // allFactions = data;
+
+                        // $(data).each(function(i, e){
+                        //     $('#selCallsign').append(`<option value='${e.symbol}'>${e.name}</option>`);
+                        // })
+                    },
+                    error: function (request, error) {
+                        alert("Request: " + JSON.stringify(request));
+                    }
+                });
+                            }
+
+
+                
+            }
+    </script>
+}

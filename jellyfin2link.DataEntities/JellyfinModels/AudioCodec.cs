@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace jellyfin2link.DataEntities.JellyfinModels
+{
+    public static class AudioCodec
+    {
+        public static string GetFriendlyName(string codec)
+        {
+            if (codec.Length == 0)
+            {
+                return codec;
+            }
+
+            if (string.Equals(codec, "ac3", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Dolby Digital";
+            }
+
+            if (string.Equals(codec, "eac3", StringComparison.OrdinalIgnoreCase))
+            {
+                return "Dolby Digital+";
+            }
+
+            if (string.Equals(codec, "dca", StringComparison.OrdinalIgnoreCase))
+            {
+                return "DTS";
+            }
+
+            return codec.ToUpperInvariant();
+        }
+    }
+}

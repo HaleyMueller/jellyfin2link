@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36414.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jellyfin2link.Console", "jellyfin2link.Console\jellyfin2link.Console.csproj", "{882777F6-F65A-4F5C-8CE7-4F20F48A3A85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jellyfin2link.DataEntities", "jellyfin2link.DataEntities\jellyfin2link.DataEntities.csproj", "{59F5F56F-B95A-4C3B-95FD-AA935E66C565}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jellyfin2link.BusinessLogicLayer", "jellyfin2link.BusinessLogicLayer\jellyfin2link.BusinessLogicLayer.csproj", "{80712A75-72A0-4C8B-BB04-EB59128EBB0C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jellyfin2link.Web", "jellyfin2link\jellyfin2link.Web.csproj", "{6B6D8F3D-E61A-43C4-9C40-E9C248A4A199}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jellyfin2link.RESTClient", "jellyfin2link.RESTClient\jellyfin2link.RESTClient.csproj", "{587F034B-ABF0-42CE-B5C9-6022C184C96C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{882777F6-F65A-4F5C-8CE7-4F20F48A3A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{882777F6-F65A-4F5C-8CE7-4F20F48A3A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{882777F6-F65A-4F5C-8CE7-4F20F48A3A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{882777F6-F65A-4F5C-8CE7-4F20F48A3A85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59F5F56F-B95A-4C3B-95FD-AA935E66C565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59F5F56F-B95A-4C3B-95FD-AA935E66C565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59F5F56F-B95A-4C3B-95FD-AA935E66C565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59F5F56F-B95A-4C3B-95FD-AA935E66C565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80712A75-72A0-4C8B-BB04-EB59128EBB0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80712A75-72A0-4C8B-BB04-EB59128EBB0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80712A75-72A0-4C8B-BB04-EB59128EBB0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80712A75-72A0-4C8B-BB04-EB59128EBB0C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6D8F3D-E61A-43C4-9C40-E9C248A4A199}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6D8F3D-E61A-43C4-9C40-E9C248A4A199}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6D8F3D-E61A-43C4-9C40-E9C248A4A199}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6D8F3D-E61A-43C4-9C40-E9C248A4A199}.Release|Any CPU.Build.0 = Release|Any CPU
+		{587F034B-ABF0-42CE-B5C9-6022C184C96C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{587F034B-ABF0-42CE-B5C9-6022C184C96C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{587F034B-ABF0-42CE-B5C9-6022C184C96C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{587F034B-ABF0-42CE-B5C9-6022C184C96C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50ADC30A-1EB7-407D-8A9A-7F5001259560}
+	EndGlobalSection
+EndGlobal

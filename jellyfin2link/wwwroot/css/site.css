@@ -1,0 +1,68 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+
+.StatusPopup {
+    position: absolute;
+    width: 40%;
+    height: 100px;
+    z-index: 1001;
+    left: 30%;
+    margin: -100px 0 0 -150px;
+    background: red;
+}
+
+.StatusPopup {
+    display: none;
+    background-color: #28a745;
+    color: white;
+    padding: 1em;
+    font-size: large;
+    font-weight: bold;
+    position: fixed;
+    text-align: center;
+    left: 50%;
+    margin-left: -120px;
+    width: 13em;
+    z-index: 9999;
+    bottom: 10px;
+    height: 4em;
+}
+
+@media (min-width: 768px) {
+    .StatusPopup {
+        display: none;
+        background-color: #28a745;
+        color: white;
+        padding: 1em;
+        font-size: large;
+        font-weight: bold;
+        position: fixed;
+        text-align: center;
+        left: 50%;
+        margin-left: -100px;
+        width: 20em;
+        z-index: 9999;
+        bottom: 10px;
+    }
+}

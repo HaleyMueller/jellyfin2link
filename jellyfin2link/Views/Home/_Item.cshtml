@@ -1,0 +1,192 @@
+﻿@model jellyfin2link.Web.Controllers.HomeController.ItemResponse
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var images = new Dictionary<string, string>();
+
+    var item = Model.Item.Data.Items.FirstOrDefault();
+
+    var playbackInfo = Model.PlaybackInfo.Data;
+    var mediaSources = playbackInfo.MediaSources ?? Array.Empty<jellyfin2link.DataEntities.JellyfinModels.MediaSourceInfo>();
+}
+
+<style>
+    .copy-url {
+        color: #1d4ed8;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+    .copy-url:hover {
+        color: #2563eb;
+    }
+
+    .copied {
+        color: #10b981;
+    }
+</style>
+
+<div class="row">
+    <div class="col-3">
+        @foreach (var image in Model.Images)
+        {
+            <img src="@image.Value" />
+            <p>@image.Key</p>
+            <br/>
+        }
+    </div>
+    <div class="col-9">
+        <h1>@item.Name | @item.ProductionYear </h1>
+
+        <h2>@item.Overview</h2>
+
+        @foreach (var mediaSource in mediaSources)
+        {
+            <h3>Media Source - @mediaSource.Path Ticks: @mediaSource.RunTimeTicks</h3>
+            <h4>@mediaSource.Container @mediaSource.VideoType</h4>
+            var subtitles = mediaSource.MediaStreams.Where(x => x.Type == jellyfin2link.DataEntities.JellyfinModels.MediaStreamType.Subtitle).ToList() ?? new List<jellyfin2link.DataEntities.JellyfinModels.MediaStream>();
+@* 
+            <ul>
+                @foreach (var subtitle in subtitles)
+                {
+                    <li>@subtitle.DisplayTitle @subtitle.Codec @subtitle.Language</li>
+                }
+            </ul> *@
+
+            <br/>
+            <h4>Media Streams</h4>
+            <ul>
+                @foreach (var source in mediaSource.MediaStreams)
+                {
+                    var routeFormat = "srt";
+                    var url = $"{Model.PublicJellyfinURL}/Videos/{item.Id}/{mediaSource.Id}/Subtitles/{source.Index}/Stream.{routeFormat}";
+                    <li>
+                        @source.Type @source.DisplayTitle @source.Codec
+
+                        <p class="copy-url" data-url="@url" onclick="copyURL(this)">
+                            @(source.Type == jellyfin2link.DataEntities.JellyfinModels.MediaStreamType.Subtitle ? url : "")
+                        </p>
+                    </li>
+                }
+            </ul>
+
+            @foreach (var itemLink in Model.ItemLinks)
+            {
+                <p class="copy-url" data-url="@itemLink.URL" onclick="copyURL(this)">
+                    @itemLink.Name: @itemLink.URL
+                </p>
+            }
+        }
+
+        <json-viewer>
+            @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model))
+        </json-viewer>
+
+        <!-- Video Buttons -->
+        <div class="mb-3">
+            @foreach (var itemLink in Model.ItemLinks)
+            {
+                <button class="btn btn-primary me-2 video-btn" data-src="@itemLink.URL" data-type="video/@(itemLink.Container)">@itemLink.Name</button>
+            }
+        </div>
+
+        <!-- Input + Load Button -->
+        <div class="input-group mb-3" style="max-width: 600px;">
+            <input type="text" id="videoInput" class="form-control" placeholder="Video URL">
+            <input type="text" id="videoType" class="form-control" placeholder="Video Type (e.g. video/mp4)">
+            <button class="btn btn-success" id="loadBtn">Load</button>
+        </div>
+
+        <!-- Video.js player -->
+        <p style="color:red">This is brokey rn</p>
+        <video id="my-video"
+               class="video-js vjs-default-skin"
+               controls
+               preload="auto"
+               width="640"
+               height="264"
+               poster="poster.jpg"
+               data-setup="{}">
+            <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4" />
+            <p class="vjs-no-js">
+                To view this video please enable JavaScript, and consider upgrading to a
+                web browser that
+                <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+        </video>
+
+        <button onclick="GetSessions()">Get Sessions</button>
+
+        <div id="jsonGetSession">
+
+        </div>
+
+        
+    </div>
+
+    <script>
+        function GetSessions(){
+            $.ajax({
+                url: '/Api/GetSessions',
+                type: 'GET',
+                success: function (data) {
+                    $('#jsonGetSession').html('<json-viewer>'+JSON.stringify(data)+'</json-viewer>');
+                }
+            });
+        }
+    
+    </script>
+
+    <script>
+        var videoButtons = document.querySelectorAll('.video-btn');
+        var videoInput = document.getElementById('videoInput');
+        var videoType = document.getElementById('videoType');
+        var loadBtn = document.getElementById('loadBtn');
+        var videoPlayer = document.getElementById('videoPlayer');
+        var videoSource = document.getElementById('videoSource');
+        var player = videojs('my-video');
+
+        // Clicking a video button sets the URL and type in the inputs
+        videoButtons.forEach(btn => {
+          btn.addEventListener('click', () => {
+            videoInput.value = btn.dataset.src;
+            videoType.value = btn.dataset.type;
+          });
+        });
+
+        // Clicking Load sets the video source and type, then plays
+        loadBtn.addEventListener('click', () => {
+          const url = videoInput.value.trim();
+          const type = videoType.value.trim();
+
+          if(url && type) {
+            // Initialize Video.js
+              player.src({ src: url, type: type });
+
+              // Start playing
+              player.play();
+          }
+        });
+    </script>
+
+    <script>
+     function copyURL(element) {
+          const url = element.dataset.url;
+
+          // Copy to clipboard
+          navigator.clipboard.writeText(url).then(() => {
+            const originalColor = element.style.color;
+            element.classList.add('copied');
+            element.textContent = 'Copied!';
+            setTimeout(() => {
+              element.classList.remove('copied');
+              element.textContent = url;
+            }, 1200);
+          }).catch(() => {
+            alert('Copy failed');
+          });
+    }
+    </script>
+</div>

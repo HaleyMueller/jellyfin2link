@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace jellyfin2link.DataEntities.JellyfinModels
+{
+    /// <summary>
+    /// An enum representing formats of spatial audio.
+    /// </summary>
+    public enum AudioSpatialFormat
+    {
+        /// <summary>
+        /// None audio spatial format.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// Dolby Atmos audio spatial format.
+        /// </summary>
+        DolbyAtmos,
+
+        /// <summary>
+        /// DTS:X audio spatial format.
+        /// </summary>
+        DTSX,
+    }
+}
