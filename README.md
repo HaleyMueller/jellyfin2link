@@ -13,6 +13,6 @@ Currently only works for video media, others are planned in the future.
 [Resonite](https://resonite.com/) public folder: resrec:///U-1THK1JekJqi/R-6779AA7B5E9609802244D7D5DE5868BF8D0FF5A14E9BC382AAD30FD93A91DE57
 
 # Setup
-Create an api key in Jellyfin.
-1. Edit jellyfin2link/Web/appsettings.json
-2. Update the Jellyfin fields and follow the format.
+1. Create an api key in Jellyfin.
+2. Edit jellyfin2link/Web/appsettings.json
+3. Update the Jellyfin fields and follow the format.
