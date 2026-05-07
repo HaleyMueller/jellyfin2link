@@ -14,4 +14,5 @@ Currently only works for video media, others are planned in the future.
 
 # Setup
 Create an api key in Jellyfin.
-Edit jellyfin2link/Web/appsettings.json edit the Jellyfin fields and follow the format.
+1. Edit jellyfin2link/Web/appsettings.json
+2. Update the Jellyfin fields and follow the format.
